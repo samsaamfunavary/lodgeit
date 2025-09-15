@@ -415,22 +415,22 @@ Must follow Instructions :
             else:
                 # Use Azure Search for other indexes
                 relevant_docs = self.azure_search.semantic_search_documents(
-                    keywords=message,
-                    class_filters=hierarchy_filters,
+                keywords=message,
+                class_filters=hierarchy_filters,
                     index_name=classified_index,
-                    limit=limit
-                )
-                
+                limit=limit
+            )
+            
                 # 3. Create RAG-enhanced prompt with the classified index
                 system_prompt = self._create_rag_prompt(message, relevant_docs, classified_index)
-                
+            
                 # 4. Get LLM response using Gemini API
-                messages = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": message}
-                ]
-                
-                llm_response = self._call_gemini_api(messages)
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": message}
+            ]
+            
+            llm_response = self._call_gemini_api(messages)
             
             return {
                 "response": llm_response,
@@ -472,22 +472,22 @@ Must follow Instructions :
             else:
                 # Use Azure Search for other indexes
                 relevant_docs = self.azure_search.semantic_search_documents(
-                    keywords=message,
-                    class_filters=hierarchy_filters,
+                keywords=message,
+                class_filters=hierarchy_filters,
                     index_name=classified_index,
-                    limit=limit
-                )
-                
+                limit=limit
+            )
+            
                 # 3. Create RAG-enhanced prompt with the classified index
                 system_prompt = self._create_rag_prompt(message, relevant_docs, classified_index)
-                
+            
                 # 4. Get LLM response using Gemini API
-                messages = [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": message}
-                ]
-                
-                llm_response = self._call_gemini_api(messages)
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": message}
+            ]
+            
+            llm_response = self._call_gemini_api(messages)
             
             # Yield the response in chunks to simulate streaming
             words = llm_response.split()
