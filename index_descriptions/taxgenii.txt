@@ -1,0 +1,64 @@
+
+Index Name: ato_complete_data2
+
+Core Subject Matter:
+This index contains the operational documentation, procedural guides, and administrative knowledge base published by the Australian Taxation Office (ATO) specifically for registered tax agents, BAS agents, and other tax professionals.
+
+The primary purpose of this index is to answer questions about managing a tax practice, using the ATO's online agent portals, and fulfilling professional obligations. It is the authoritative source for how agents should interact with ATO systems, manage their client list, and adhere to lodgment programs and compliance requirements. It is a "how-to" guide for the business of being a tax professional in Australia.
+
+Key Entities and Concepts:
+
+Systems & Portals: Online services for agents, ATO online, Relationship Authorisation Manager (RAM), myGovID.
+
+Professional Bodies: Tax Practitioners Board (TPB), professional associations.
+
+Processes & Programs: Lodgment Program, client-to-agent linking, lodgment deferrals, payment plans, proof of identity (POI) verification.
+
+Obligations & Compliance: Continuing Professional Education (CPE), Code of Professional Conduct, agent registration and renewal.
+
+Client Management: Viewing client details, communication preferences, managing Single Touch Payroll (STP) data.
+
+Practice Management: Digital security for practices, managing staff access, understanding ATO communication.
+
+Alerts & Updates: System maintenance announcements, portal updates, news for tax professionals.
+
+Data Structure and Segmentation:
+The information is segmented based on a tax professional's operational needs:
+
+Portal Access & Security: Guides on setting up and using myGovID and RAM, and best practices for practice security.
+
+Using Online Services for Agents: Detailed "how-to" articles on the core functions of the portal, such as viewing statements, lodging forms, and communicating with the ATO.
+
+Lodgment and Due Dates: Information on the lodgment program, key dates, deferral requests, and support for meeting deadlines.
+
+Client Administration: Instructions for adding new clients, updating client details, and managing authorisations.
+
+Practice & Professional Obligations: Content related to the TPB, CPE requirements, and running a compliant tax practice.
+
+News & System Updates: A collection of operational updates, announcements, and news relevant to agents.
+
+Ideal User Queries for this Index:
+Route queries to this index if they are from the perspective of a tax professional asking about the administration of their practice or the use of ATO systems.
+
+Setup and Access: "How do I set up RAM for a new employee?", "What are the steps to link a new client in Online services for agents?"
+
+Step-by-Step Instructions: "Guide me through requesting a lodgment deferral.", "How can I generate a client's payment slip (PS ID)?"
+
+Practice Compliance: "What are the latest client verification (proof of identity) guidelines?", "Where can I find information on my CPE requirements?"
+
+System Troubleshooting: "Is Online services for agents currently down?", "Why am I getting an error when trying to view a client's account?"
+
+Finding Information: "Where do I find the lodgment program due dates for BAS agents?", "How do I check the status of a previously lodged return for a client?"
+
+Professional Knowledge: "What are the ATO's expectations for digital security in my practice?"
+
+Queries to EXCLUDE (Boundary Definition):
+DO NOT use this index for queries concerning:
+
+General Tax Law or Interpretations: "What is the capital gains tax discount rate?", "Is this expense deductible?" (These belong to the ATO Public Knowledge Base Index).
+
+Software-Specific Instructions: "How do I lodge a form using LodgeiT?" (This belongs to the LodgeiT Knowledge Base Index).
+
+Specific Financial Advice for a Client: "What is the best way to structure this business for tax purposes?" (This is financial advice and out of scope).
+
+Direct Actions in the Portal: This index contains instructions but cannot perform live actions like "Lodge this tax return for my client" or "Add John Smith to my client list." It can only explain how the agent can perform these actions.

@@ -1,0 +1,65 @@
+Index Name: lodgeit-help-guides
+
+This index contains the technical knowledge base, user guides, and step-by-step instructions for the LodgeiT software platform. It is a comprehensive repository of "how-to" articles, troubleshooting guides, FAQs, and setup instructions.
+
+The primary purpose of this index is to answer specific, practical questions from users about how to perform tasks, configure settings, resolve errors, and manage their account within the LodgeiT environment. It functions as the primary self-service support and technical documentation for the software.
+
+Key Entities and Concepts
+Articles/Guides: The individual documents that provide instructions or explanations.
+
+Settings: Configurable options within the software, such as 'General Settings', 'Email Settings', 'Branding', and 'Account and Security'.
+
+Processes/Workflows: Multi-step actions users perform, like the 'Sign-up Process', 'Client Migration Process', or 'Form Workflow Sequence'.
+
+Integrations & Connections: Specific instructions for connecting LodgeiT to external services, most importantly the ATO (Australian Taxation Office) and accounting software like QuickBooks Online.
+
+Troubleshooting: Solutions to common problems, errors, and FAQs (e.g., "Bounce Email," "QBOA User Sign-in Issue").
+
+Billing and Payments: Administrative guides on how to manage billing, see invoices, and redeem credits (distinct from general pricing information).
+
+User Management: Instructions on adding team members, managing access, and setting up security features like 2-factor authentication.
+
+Data Structure and Segmentation
+The information in this index is highly granular and organized into a hierarchical structure of categories and sub-categories. The classifier should recognize these key areas:
+
+Getting Started: Guides for new users, including the sign-up process, initial setup, and platform overviews.
+
+Account Management & Security: Instructions for managing user accounts, passwords, 2-factor authentication, and team member access.
+
+Core Software Functionality: Detailed "how-to" articles on using the main features of the software, such as working with forms, using e-signatures, and navigating the dashboard.
+
+Integrations & ATO Connection: Specific, critical instructions for connecting LodgeiT to the ATO and syncing with accounting software like QuickBooks. This is a key value of this index.
+
+Practice & Firm Settings: Guides for professional users (Accountants, Tax Agents) on configuring firm-level settings like branding, email servers, and agent details.
+
+Billing and Subscription Management: Administrative articles explaining the billing page, how to view invoices, and how to apply special pricing or credits (e.g., QuickBooks ProAdvisor tokens).
+
+Troubleshooting & FAQs: A collection of articles addressing specific, common questions and error messages.
+
+Updates & Training: Information about what's new in the software, newsletters, and announcements for workshops.
+
+Ideal User Queries for this Index
+Route queries to this index if they are action-oriented "how-to" questions or requests for specific instructions:
+
+Setup and Configuration: "How do I connect LodgeiT to the ATO?", "Show me how to set up 2-factor authentication.", "How can I change my firm's logo?"
+
+Step-by-Step Instructions: "What are the steps to amend a tax form?", "How do I import clients from Xero?", "Guide me through the e-signature process."
+
+Troubleshooting: "Why are my client emails bouncing?", "I'm having trouble signing in with my QuickBooks account, what should I do?", "How to fix the 'promo code is not valid' error?"
+
+Finding Information: "Where can I find my lodgement receipt?", "How do I view my LodgeiT invoice?"
+
+Feature Explanations: "How does the 'Work status filter' work?", "Explain the intermediary settings."
+
+Security: "How to reset my 2FA?", "What is MyGov ID used for in LodgeiT?"
+
+Queries to EXCLUDE (Boundary Definition)
+DO NOT use this index for queries concerning:
+
+Pricing and Plan Comparisons: "How much does LodgeiT cost?", "What's the difference between the Nano and Starter plans?" (These belong to the Pricing Index).
+
+General Capabilities & Features: "What does LodgeiT do?", "Does LodgeiT have financial reporting tools?" (These belong to the Product Information Index).
+
+Tax or Financial Advice: "What is the deadline for lodging a tax return?"
+
+Live Account Issues: This index contains guides to solve problems, but it cannot access or resolve a user's live account issue (e.g., "My account is locked, please unlock it"). It can only provide the instructions on how the user can do it themselves.

@@ -1,0 +1,64 @@
+Index Name: logit-website
+This index contains comprehensive informational and support-related content about the LodgeiT software platform. Unlike the pricing index, this data does not focus on cost. Instead, it details the capabilities, functionalities, target users, and learning resources associated with LodgeiT.
+
+The primary purpose of this index is to answer user queries about what LodgeiT does, who it is for, what features it offers, and how to learn more about using it. It serves as a product brochure, feature guide, and support portal directory.
+
+Key Entities and Concepts
+User Profiles: The distinct types of customers LodgeiT serves. The content is explicitly segmented for:
+
+Accountants: Professional accounting firms.
+
+Bookkeepers: Professional bookkeepers and BAS Agents.
+
+Businesses / Family Offices: End-users managing their own compliance.
+
+Features: The specific tools and capabilities within the software (e.g., "Tax Forms," "Financial Reports," "Working Papers," "Integrations").
+
+Integrations: Third-party business systems that connect with LodgeiT, such as Xero, QuickBooks, and MYOB.
+
+Resources: The various channels and materials available for user support and learning (e.g., "Knowledge Base," "YouTube Channel," "Workshops").
+
+Solutions: This term refers to how LodgeiT's features are packaged and presented to solve the specific needs of each user profile.
+
+Data Structure and Segmentation
+The information in this index is organized around three main pillars, mirroring the website's navigation:
+
+Solutions: This section is audience-centric. It explains the benefits and relevant tools of LodgeiT for each specific user group (Accountants, Businesses, Bookkeepers). It answers the question, "How does LodgeiT help me in my specific role?"
+
+Content includes role-specific advantages, key functionalities, and supported business structures (Company, Trust, Partnership) and accounting systems (Xero, etc.).
+
+Features: This section is product-centric. It provides a detailed list and description of the individual modules and tools available within the software. It answers the question, "What can LodgeiT actually do?"
+
+Content includes high-level feature names like "Tax Forms," "Reconciliation Tools," "Compliance Controls," and "Legal Document/Template," which act as gateways to more detailed information.
+
+Resources: This section is support-centric. It directs users to various self-help and learning materials. It answers the question, "Where can I find help or learn how to use LodgeiT?"
+
+Content includes links and references to articles, video tutorials, live workshops, and a comprehensive knowledge base.
+
+Ideal User Queries for this Index
+Route queries to this index if they are about the software's functionality, purpose, and support systems:
+
+General Capabilities: "What is LodgeiT?", "What does LodgeiT do?", "Is LodgeiT a tax software?"
+
+Role-Specific Questions: "How can LodgeiT help my accounting firm?", "Is LodgeiT suitable for a small business owner?", "What features does LodgeiT have for bookkeepers?"
+
+Feature Inquiries: "Does LodgeiT have tools for creating financial reports?", "What are the compliance controls in LodgeiT?", "Can I create legal documents with this software?"
+
+Integration Questions: "Does LodgeiT integrate with Xero?", "Can I import data from QuickBooks?", "What accounting systems does LodgeiT connect to?"
+
+Support and Learning: "Where can I find LodgeiT tutorials?", "Does LodgeiT have a knowledge base?", "Are there video guides for using LodgeiT?"
+
+Form/Document Capabilities: "What kind of tax forms can I lodge with LodgeiT?", "Can LodgeiT handle partnership tax returns?"
+
+Queries to EXCLUDE (Boundary Definition)
+DO NOT use this index for queries concerning:
+
+Pricing and Cost: "How much is LodgeiT?", "What is the price of the Nano plan?", "Is there a pay-as-you-go option?" (These belong to the Pricing Index).
+
+Account-Specific Issues: "I can't log in to my account," "How do I reset my password?", "Where is my latest invoice?"
+
+Tax or Financial Advice: "What is the small business tax rate?", "How do I fill out a fringe benefits tax return?"
+
+Company Information: "Who founded LodgeiT?", "Where is the company headquartered?"
+
+Direct Technical "How-To": While it can point to where to find help (e.g., "the YouTube channel"), it may not contain the step-by-step technical instructions themselves. For instance, a query like "Give me the 5 steps to import a client from MYOB" might be better answered by a more detailed knowledge base index if one exists. This index primarily confirms that the functionality exists and directs the user to the appropriate resource.

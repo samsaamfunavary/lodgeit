@@ -1,0 +1,34 @@
+### What is the Medicare Levy?
+
+The **Medicare Levy** is a tax imposed on Australian taxpayers to help fund the country's public healthcare system, known as Medicare. It is calculated as a percentage of your taxable income and is generally set at **2%** of your taxable income. However, the amount you pay can vary depending on your income level, family circumstances, and whether you qualify for any exemptions or reductions.
+
+---
+
+### Key Points About the Medicare Levy:
+
+1. **Purpose**:  
+   The Medicare Levy ensures that Australians contribute to the funding of Medicare, which provides access to public healthcare services.
+
+2. **Calculation**:  
+   The levy is based on your **taxable income**. If your income is below a certain threshold, you may qualify for a reduction or exemption. For example, if your taxable income is less than **$39,402**, the Medicare Levy may be reduced to **$0**. Learn more about thresholds in the [How to Reduce Medicare Levy](https://help.lodgeit.net.au/support/solutions/articles/60000720420-how-to-reduce-medicare-levy) guide.
+
+   ![Medicare Levy Reduction Thresholds](https://s3.amazonaws.com/cdn.freshdesk.com/data/helpdesk/attachments/production/60068265998/original/31pQOTji9vL9oIbu9ZLkrhPbbc4N0Xiung.png?1660192253)
+
+3. **Exemptions**:  
+   Certain individuals, such as foreign residents or those with specific circumstances (e.g., partial-year residency), may qualify for exemptions. For example, filling **M1-V** or **M1-W** fields in LodgeiT can reduce the levy for partial-year residents. Learn more in the [How to Reduce Medicare Levy](https://help.lodgeit.net.au/support/solutions/articles/60000720420-how-to-reduce-medicare-levy) guide.
+
+   ![Medicare Levy Exemption Fields](https://s3.amazonaws.com/cdn.freshdesk.com/data/helpdesk/attachments/production/60123387197/original/yYah0Qev5dFa1c4xindgqSjrWYSYG9heSg.png?1727935945)
+
+4. **Medicare Levy Surcharge (MLS)**:  
+   In addition to the standard Medicare Levy, high-income earners who do not have private health insurance may be subject to the **Medicare Levy Surcharge**. This surcharge is calculated separately and depends on your income and private health insurance status. For more details, visit the [Medicare Levy Surcharge](https://help.lodgeit.net.au/support/solutions/articles/60000666936-medicare-levy-surcharge) guide.
+
+   ![Medicare Levy Surcharge Details](https://s3.amazonaws.com/cdn.freshdesk.com/data/helpdesk/attachments/production/60006324144/original/wYoUW5NxQ9jtlr3neq7JblnSosZGlskb5w.png?1589850149)
+
+---
+
+### Additional Resources:
+
+- **Medicare Levy Reduction**: Learn how family income thresholds and dependent children affect the levy in the [How to Reduce Medicare Levy](https://help.lodgeit.net.au/support/solutions/articles/60000720420-how-to-reduce-medicare-levy) guide.
+- **Medicare Levy Surcharge**: Understand how the surcharge is calculated and its income thresholds in the [Medicare Levy Surcharge](https://help.lodgeit.net.au/support/solutions/articles/60000666936-medicare-levy-surcharge) guide.
+
+If you have further questions or need assistance with LodgeiT, feel free to ask!

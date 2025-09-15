@@ -1,0 +1,107 @@
+Index Name: lodgeit-pricing
+This index contains detailed pricing, plan structures, and feature lists for LodgeiT, an Australian cloud-based software platform for tax agents, accountants, bookkeepers, and businesses. The data is exclusively focused on the commercial offerings of the LodgeiT service, detailing what features are included in which plans and at what cost. It is a product and pricing catalog.
+
+The primary function of this data is to answer user queries about the cost, features, and target audience of different LodgeiT subscription plans and pay-as-you-go services. All pricing is in Australian Dollars (AUD) and includes GST where specified.
+
+Key Entities and Concepts
+LodgeiT: The software product itself.
+
+Lodgment: A core unit of service. This refers to the act of submitting a single official form to a regulatory body, such as the Australian Taxation Office (ATO). Examples include submitting a Company Tax Return or a Business Activity Statement (BAS).
+
+Plan/Subscription: A package of services with specific allowances and features, usually billed annually (e.g., Nano, Starter, Professional).
+
+On Demand / Pay as you go: A pricing model where users pay for each service or "lodgment" individually, without an annual subscription fee.
+
+Forms: Specific types of documents that can be lodged, such as "Company tax return," "Trust tax return," "SMSF annual return," "Activity statement (BAS)," and "Taxable payments annual report (TPAR)."
+
+Data Structure and Segmentation
+The data is segmented into three distinct customer profiles, each with its own set of tailored plans and pricing. The classifier must first identify which profile the user's query relates to:
+
+Business/Family Office:
+
+Aimed at end-user businesses or individuals managing their own tax affairs.
+
+Features two main plans:
+
+On Demand: A "pay as you go" model.
+
+Enterprise: A custom plan for large-volume businesses.
+
+Accountants:
+
+Aimed at professional accounting firms serving multiple clients.
+
+Features five tiered annual subscription plans, with increasing lodgment allowances and features:
+
+Nano
+
+Starter
+
+Standard
+
+Professional
+
+Enterprise
+
+Bookkeepers:
+
+Aimed at professional bookkeepers and BAS Agents.
+
+Features a single, specialized annual plan:
+
+BAS Agent Plan
+
+Specific Information Contained in the Index
+This index can answer questions related to the following specific data points:
+
+Plan Names: The title of each subscription (e.g., "Nano", "Starter", "On Demand").
+
+Pricing:
+
+Annual subscription costs (e.g., "$660 including GST/annually").
+
+Pay-as-you-go costs for individual services (e.g., "$120 first lodgment").
+
+Per-unit costs for extra usage (e.g., "$1.20 per extra lodgment").
+
+Costs for specific features like "Financial Reports Pro" or "Legal Documents."
+
+Included Allowances: The number of "lodgments" or other units included in a plan (e.g., "200 lodgments included").
+
+User Limits: Information on how many team members can use the account (typically "unlimited users").
+
+Specific Forms and Services: Lists of which tax and business forms are supported under each plan.
+
+Feature Details: Descriptions of services like "Financial Reports," "Legal Documents," and "E-Signatures."
+
+Package/Bundle Deals: Bulk pricing for services like lodgments or e-signatures (e.g., "100 e-Sign - $99").
+
+Feature Comparison Tables: Direct comparisons of which features are available in which plans.
+
+Ideal User Queries for this Index
+Route queries to this index if they are about:
+
+Direct Price Checks: "How much does LodgeiT cost?", "What is the price of the Starter plan for accountants?", "Is there a free LodgeiT plan?"
+
+Plan Comparisons: "What is the difference between the Nano and Starter plans?", "LodgeiT On Demand vs Enterprise"
+
+Feature Inquiries: "Does LodgeiT charge for e-signatures?", "What's included in the Financial Reports Pro feature?", "Can I lodge a partnership tax return with LodgeiT?"
+
+Best Plan for a Role: "What is the best LodgeiT plan for a small accounting firm?", "I'm a bookkeeper, what are my options?", "Which plan should I choose for my small business?"
+
+Cost Calculation: "If I need to lodge 25 tax returns, what would it cost on the On Demand plan?", "How much for 500 e-signatures?"
+
+Allowance Questions: "How many lodgments are included in the Standard plan?"
+
+Queries to EXCLUDE (Boundary Definition)
+DO NOT use this index for queries concerning:
+
+How-to or Technical Support: "How do I connect LodgeiT to Xero?", "My login is not working."
+
+Tax or Financial Advice: "Can I claim my car as a business expense?", "What is the deadline for lodging a BAS?"
+
+Company Information: "Who is the CEO of LodgeiT?", "Where are LodgeiT's offices located?"
+
+Comparisons with Competitors: "Is LodgeiT cheaper than Xero Tax?" (Unless the query is specifically asking only for the LodgeiT pricing part of that comparison).
+
+General Definitions: "What is a Business Activity Statement?"
