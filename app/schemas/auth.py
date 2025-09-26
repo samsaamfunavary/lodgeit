@@ -1,7 +1,6 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional
-from datetime import datetime
+from pydantic import BaseModel, ConfigDict, EmailStr
 
+# --- User & Auth Schemas ---
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
@@ -14,9 +13,9 @@ class UserLogin(BaseModel):
 class UserResponse(BaseModel):
     id: int
     username: str
-    email: str
-    created_at: datetime
+    email: EmailStr
+    model_config = ConfigDict(from_attributes=True)
 
 class Token(BaseModel):
     access_token: str
-    token_type: str = "bearer"
+    token_type: str

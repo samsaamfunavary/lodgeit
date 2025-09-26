@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Stream Tester</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; background-color: #f4f7f9; color: #333; max-width: 800px; margin: 20px auto; padding: 20px; }
+        h1, h2 { color: #1a253c; }
+        #chat-container { border: 1px solid #d1dbe3; border-radius: 8px; background-color: #fff; padding: 20px; }
+        #chat-history { min-height: 200px; margin-bottom: 20px; border-bottom: 1px solid #e1e8ed; padding-bottom: 15px; }
+        .message { margin-bottom: 10px; padding: 10px; border-radius: 6px; white-space: pre-wrap; word-wrap: break-word; }
+        .user-message { background-color: #e1f5fe; text-align: right; }
+        .assistant-message { background-color: #f1f3f5; }
+        textarea, input[type="text"], button { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:disabled { background-color: #a0cfff; cursor: not-allowed; }
+        #references-container { background-color: #e9ecef; padding: 15px; border-radius: 8px; }
+        #references-container pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+
+    <h1>Chat Stream Visualizer (LangGraph Endpoint)</h1>
+
+    <div id="chat-container">
+        <h2>Conversation</h2>
+        <div id="chat-history"></div>
+        
+        <label for="chat-id">Chat ID:</label>
+        <input type="text" id="chat-id" placeholder="Enter Chat ID to continue a conversation...">
+        
+        <label for="jwt-token">Your JWT Token:</label>
+        <input type="text" id="jwt-token" placeholder="Paste your Bearer token here...">
+
+        <label for="message-input">Your Message:</label>
+        <textarea id="message-input" rows="3" placeholder="Type your message..."></textarea>
+        
+        <button id="send-button">Send to /chat-lg</button>
+        <button id="new-chat-button">Start New Chat</button>
+
+        <h2>References</h2>
+        <div id="references-container">
+            <pre id="references-content">References will appear here...</pre>
+        </div>
+    </div>
+
+    <script>
+        const sendButton = document.getElementById('send-button');
+        const newChatButton = document.getElementById('new-chat-button');
+        const messageInput = document.getElementById('message-input');
+        const chatIdInput = document.getElementById('chat-id');
+        const jwtTokenInput = document.getElementById('jwt-token');
+        const chatHistory = document.getElementById('chat-history');
+        const referencesContent = document.getElementById('references-content');
+
+        const API_BASE_URL = 'http://127.0.0.1:8001/api/v1'; // Ensure your port and path are correct
+
+        // --- NEW CHAT LOGIC (No changes needed) ---
+        newChatButton.addEventListener('click', async () => {
+            const token = jwtTokenInput.value.trim();
+            if (!token) {
+                alert('Please enter a JWT token first.');
+                return;
+            }
+
+            chatHistory.innerHTML = '';
+            referencesContent.innerText = 'References will appear here...';
+            chatIdInput.value = '';
+            messageInput.value = '';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/new-chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Failed to create new chat: ${errorData.detail || response.statusText}`);
+                }
+
+                const data = await response.json();
+                chatIdInput.value = data.chat_id;
+                alert(`New chat created with ID: ${data.chat_id}`);
+                
+            } catch (error) {
+                console.error('Error creating new chat:', error);
+                chatHistory.innerHTML += `<div class="message assistant-message">Error: ${error.message}</div>`;
+            }
+        });
+
+
+        // --- SEND MESSAGE LOGIC ---
+        sendButton.addEventListener('click', async () => {
+            const message = messageInput.value.trim();
+            const chatId = chatIdInput.value.trim();
+            const token = jwtTokenInput.value.trim();
+
+            if (!message || !chatId || !token) {
+                alert('Please provide a Chat ID, JWT Token, and a message.');
+                return;
+            }
+
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user-message';
+            userMessageDiv.innerText = message;
+            chatHistory.appendChild(userMessageDiv);
+
+            const assistantMessageDiv = document.createElement('div');
+            assistantMessageDiv.className = 'message assistant-message';
+            chatHistory.appendChild(assistantMessageDiv);
+            
+            referencesContent.innerText = '';
+            sendButton.disabled = true;
+            messageInput.value = '';
+
+            try {
+                // #######################################################
+                // ## ONLY CHANGE IS HERE: Use the /chat-lg endpoint ##
+                // #######################################################
+                const response = await fetch(`${API_BASE_URL}/chat-lg`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        chat_id: parseInt(chatId),
+                        message: message,
+                        stream: true,
+                        hierarchy_filters: []
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`API Error: ${errorData.detail || response.statusText}`);
+                }
+
+                if (!response.body) return;
+
+                const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+                
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    const lines = value.split('\n\n').filter(line => line.trim());
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const jsonDataString = line.slice(6);
+                            try {
+                                const parsedData = JSON.parse(jsonDataString);
+
+                                if (parsedData.type === 'chunk') {
+                                    assistantMessageDiv.innerText += parsedData.data;
+                                } else if (parsedData.type === 'references') {
+                                    referencesContent.innerText = JSON.stringify(parsedData.data, null, 2);
+                                } else if (parsedData.type === 'done') {
+                                    console.log('Stream finished.');
+                                }
+                            } catch (e) {
+                                console.error("Error parsing JSON from stream:", jsonDataString, e);
+                            }
+                        }
+                    }
+                }
+
+            } catch (error) {
+                assistantMessageDiv.innerText = `Error: ${error.message}`;
+                console.error('Fetch error:', error);
+            } finally {
+                sendButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

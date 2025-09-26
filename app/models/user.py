@@ -13,3 +13,13 @@ class User(Base):
     
     def __repr__(self):
         return f"<User(id={self.id}, username='{self.username}', email='{self.email}')>"
+
+
+
+# --- NEW: Token Blacklist Table ---
+# This model is needed for the JWT logout functionality.
+class TokenBlacklist(Base):
+    __tablename__ = "token_blacklist"
+    id = Column(Integer, primary_key=True, index=True)
+    token = Column(String(512), unique=True, nullable=False, index=True)
+    blacklisted_on = Column(DateTime, server_default=func.now())

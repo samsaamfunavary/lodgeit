@@ -13,6 +13,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import your models
 from app.core.database import Base
 from app.models.user import User  # Import all your models here
+from app.models.chat import Chat, ChatMessage, MessageSource
+from app.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

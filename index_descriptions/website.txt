@@ -1,4 +1,4 @@
-Index Name: logit-website
+Index Name: lodgeit-website
 This index contains comprehensive informational and support-related content about the LodgeiT software platform. Unlike the pricing index, this data does not focus on cost. Instead, it details the capabilities, functionalities, target users, and learning resources associated with LodgeiT.
 
 The primary purpose of this index is to answer user queries about what LodgeiT does, who it is for, what features it offers, and how to learn more about using it. It serves as a product brochure, feature guide, and support portal directory.
