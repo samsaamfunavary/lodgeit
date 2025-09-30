@@ -46,3 +46,10 @@ class ChatMessageResponse(BaseModel):
 
     
     model_config = ConfigDict(from_attributes=True)
+
+class ChatSessionPage(BaseModel):
+    """Represents a paginated list of chat sessions."""
+    items: List[ChatSessionInfo]
+    total: int
+    page: int
+    size: int

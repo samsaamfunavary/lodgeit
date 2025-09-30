@@ -109,8 +109,9 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
         # Create user
         user = auth_service.create_user(db, username, email, password)
         access_token = auth_service.create_access_token(data={"sub": user.username})
+        encrypted_access_token = auth_service.create_encrypted_access_token(data={"sub": user.username})
         return {
-            "access_token": access_token,
+            "access_token": encrypted_access_token,
             "token_type": "bearer",
             "username": user.username,
             "email": user.email,

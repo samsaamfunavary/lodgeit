@@ -8,17 +8,45 @@ from app.models.chat import Chat, ChatMessage, MessageSource
 
 # --- DATABASE LOGIC HELPER FUNCTIONS ---
 
+# def create_chat_session(db: Session, user: User) -> Chat:
+#     """Creates a new chat session in the database with a default title."""
+#     new_chat = Chat(user_id=user.id, title="New Chat", is_deleted=False)
+#     db.add(new_chat)
+#     db.commit()
+#     db.refresh(new_chat)
+#     return new_chat
 def create_chat_session(db: Session, user: User) -> Chat:
-    """Creates a new chat session in the database with a default title."""
-    new_chat = Chat(user_id=user.id, title="New Chat")
+    """
+    Creates a new chat session for the user, but first checks if the most
+    recent session is already empty to prevent duplicates.
+    """
+    # 1. Find the user's most recently created chat session.
+    most_recent_chat = (
+        db.query(Chat)
+        .filter(Chat.user_id == user.id)
+        .order_by(Chat.created_at.desc())
+        .first()
+    )
+
+    # 2. Check if that chat exists and has zero messages.
+    #    The `most_recent_chat.messages` relationship will be an empty list if there are no messages.
+    if most_recent_chat and not most_recent_chat.messages:
+        print(f"Returning existing empty chat (ID: {most_recent_chat.id}) for user {user.id}")
+        print(most_recent_chat.id)
+        return most_recent_chat # Return the existing empty chat
+
+    # 3. If the most recent chat has messages (or no chats exist), create a new one.
+    print(f"Creating a new chat session for user {user.id}")
+    new_chat = Chat(user_id=user.id, title="New Chat", is_deleted=False)
     db.add(new_chat)
     db.commit()
     db.refresh(new_chat)
     return new_chat
 
+
 def get_chat_session_for_user(db: Session, chat_id: int, user: User) -> Chat:
     """Retrieves an existing chat session, ensuring the user owns it."""
-    chat = db.query(Chat).filter(Chat.id == chat_id, Chat.user_id == user.id).first()
+    chat = db.query(Chat).filter(Chat.id == chat_id, Chat.user_id == user.id, Chat.is_deleted == False).first()
     if not chat:
         # --- THIS IS THE FIX ---
         # Changed status.HTTP_4_NOT_FOUND to status.HTTP_404_NOT_FOUND
@@ -63,9 +91,9 @@ def add_sources_to_message_in_db(db: Session, message_id: int, sources: List[dic
     db.commit()
 
 
-def get_chat_sessions_for_user(db: Session, user_id: int) -> List[Chat]:
+def get_chat_sessions_for_user(db: Session, user_id: int, page: int, size: int) -> List[Chat]:
     """Retrieves all chat sessions for a specific user, most recent first."""
-    return db.query(Chat).filter(Chat.user_id == user_id).order_by(Chat.updated_at.desc()).all()
+    return db.query(Chat).filter(Chat.user_id == user_id, Chat.is_deleted == False).order_by(Chat.updated_at.desc()).offset((page - 1) * size).limit(size).all()
 
 def get_messages_for_chat_session(db: Session, chat_id: int, user_id: int) -> List[ChatMessage]:
     """
@@ -85,3 +113,12 @@ def get_messages_for_chat_session(db: Session, chat_id: int, user_id: int) -> Li
         .order_by(ChatMessage.created_at.asc())
         .all()
     )
+
+def delete_chat_session(db: Session, chat_id: int, user_id: int) -> None:
+    """Deletes a chat session and all associated messages."""
+    chat = db.query(Chat).filter(Chat.id == chat_id, Chat.user_id == user_id, Chat.is_deleted == False).first()
+    if not chat:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Chat session not found or access denied.")
+    chat.is_deleted = True
+    db.commit()
+    return True

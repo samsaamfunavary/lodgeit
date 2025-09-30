@@ -1,4 +1,5 @@
 from sqlalchemy import (
+    Boolean,
     Column,
     Integer,
     String,
@@ -7,7 +8,8 @@ from sqlalchemy import (
     ForeignKey,
     Float,
     func,
-    Index
+    Index,
+    text
 )
 from sqlalchemy.orm import relationship
 from app.core.database import Base
@@ -21,6 +23,8 @@ class Chat(Base):
     title = Column(String(255), nullable=False)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    is_deleted = Column(Boolean, nullable=False, server_default=text('false'), index=True)
+
     messages = relationship("ChatMessage", back_populates="chat", cascade="all, delete-orphan")
     user = relationship("User")
 
