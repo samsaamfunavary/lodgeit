@@ -1,17 +1,23 @@
+
+from calendar import c
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
-from typing import List, Optional
+from typing import List, Optional , Dict
 
 # --- Chat Schemas ---
 class ChatRequest(BaseModel):
     chat_id: int # This is now a required field
     message: str
-    chat_id: Optional[int] = None
     hierarchy_filters: Optional[List[str]] = []
     index_name: Optional[str] = None
-    limit: int = 3
+    limit: int = 4
     stream: bool = True
 
+
+class ChatRequestWidget(BaseModel):
+    message: str
+    chat_history: List[Dict[str, str]]
+    stream: bool = True
 
 class NewChatRequest(BaseModel):
     initial_message: str
@@ -25,7 +31,7 @@ class ChatSessionInfo(BaseModel):
     id: int
     title: str
     updated_at: datetime
-
+    
     model_config = ConfigDict(from_attributes=True)
 
 

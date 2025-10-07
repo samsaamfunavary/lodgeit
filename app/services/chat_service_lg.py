@@ -7,6 +7,7 @@ from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
 from openai import AsyncAzureOpenAI
 import httpx
+from sqlalchemy import false
 
 from app.services.azure_search import Azure_Search
 from app.services.classifier_service import ClassifierService
@@ -27,6 +28,10 @@ class ChatState(TypedDict):
     classifiedIndex: str
 
     documents: List[Dict[str, Any]]
+
+    stream: bool
+
+    final_response: str
 
     # The 'context' field is no longer needed as it's built inside the prompt function
 
@@ -129,58 +134,120 @@ class LangGraphChatService:
         print(f"[Node: retrieve_documents] Found {len(docs)} documents.")
         return {"documents": docs}
 
-    async def _call_rag_llm(self, state: ChatState) -> Dict[str, Any]:
+
+    # In your LangGraph service file
+
+    async def _call_rag_llm(self, state: ChatState  ) -> Dict[str, Any]:
             """
             Node: Constructs the final RAG prompt including chat history and streams the LLM response.
             """
             print("\n[Node: call_rag_llm] Entered node.")
+            stream=state["stream"]
+            if stream == True:
             
-            # 1. Create the content for the system message (instructions + RAG context)
-            system_prompt_content = self._create_rag_prompt(
-                state['standaloneQuestion'], 
-                state['documents'], 
-                state['classifiedIndex']
-            )
-            system_message = {"role": "system", "content": system_prompt_content}
-            
-            # 2. Convert the LangGraph message history to the OpenAI format
-            history_as_dicts = []
-            # Exclude the most recent user message, as we'll add it separately
-            recent_history = state['messages'][:-1][-5:]
-
-            for msg in recent_history:
-                role = 'assistant' if msg.type == 'ai' else 'user'
-                history_as_dicts.append({"role": role, "content": msg.content})
-
-            # 3. Get the latest user message
-            latest_user_message = {"role": "user", "content": state['userInput']}
-
-            # 4. Construct the final payload in the "Best of Both Worlds" format
-            final_messages = [
-                system_message,
-                *history_as_dicts, # Unpack the history messages
-                latest_user_message
-            ]
-
-            print(f"[Node: call_rag_llm] Preparing to call OpenAI with {len(final_messages)} total messages.")
-            
-            try:
-                stream = await self.openai_client.chat.completions.create(
-                    model=self.openai_deployment, messages=final_messages, temperature=0, max_tokens=3500, stream=True
+                # 1. Create the content for the system message (instructions + RAG context)
+                system_prompt_content = self._create_rag_prompt(
+                    state['standaloneQuestion'], 
+                    state['documents'], 
+                    state['classifiedIndex']
                 )
+                system_message = {"role": "system", "content": system_prompt_content}
                 
-                async def chunk_generator():
-                    async for chunk in stream:
-                        if chunk.choices and (content := chunk.choices[0].delta.content):
-                            yield content
+                # 2. Convert the LangGraph message history to the OpenAI format
+                history_as_dicts = []
+                # Exclude the most recent user message, as we'll add it separately
+                recent_history = state['messages'][:-1][-5:]
 
-                return {"final_response_chunks": chunk_generator()}
+                for msg in recent_history:
+                    role = 'assistant' if msg.type == 'ai' else 'user'
+                    history_as_dicts.append({"role": role, "content": msg.content})
 
-            except Exception as e:
-                print(f"[Node: call_rag_llm] ERROR during OpenAI API call: {e}")
-                async def error_generator():
-                    yield f"**Error:** An unexpected error occurred. Please check the server logs."
-                return {"final_response_chunks": error_generator()}
+                # 3. Get the latest user message
+                latest_user_message = {"role": "user", "content": state['userInput']}
+
+                # 4. Construct the final payload in the "Best of Both Worlds" format
+                final_messages = [
+                    system_message,
+                    *history_as_dicts, # Unpack the history messages
+                    latest_user_message
+                ]
+
+                print(f"[Node: call_rag_llm] Preparing to call OpenAI with {len(final_messages)} total messages.")
+                
+                try:
+                    stream = await self.openai_client.chat.completions.create(
+                        model=self.openai_deployment, messages=final_messages, temperature=0, max_tokens=3500, stream=True
+                    )
+                    
+                    async def chunk_generator():
+                        async for chunk in stream:
+                            if chunk.choices and (content := chunk.choices[0].delta.content):
+                                yield content
+
+                    return {"final_response_chunks": chunk_generator()}
+
+                except Exception as e:
+                    print(f"[Node: call_rag_llm] ERROR during OpenAI API call: {e}")
+                    async def error_generator():
+                        yield f"**Error:** An unexpected error occurred. Please check the server logs."
+                    return {"final_response_chunks": error_generator()}
+            else:
+                print("else statement non stream")
+                # 1. Create the content for the system message (instructions + RAG context)
+                system_prompt_content = self._create_rag_prompt(
+                    state['standaloneQuestion'], 
+                    state['documents'], 
+                    state['classifiedIndex']
+                )
+                system_message = {"role": "system", "content": system_prompt_content}
+                
+                # 2. Convert the LangGraph message history to the OpenAI format
+                history_as_dicts = []
+                # Exclude the most recent user message, as we'll add it separately
+                recent_history = state['messages'][:-1][-5:]
+
+                for msg in recent_history:
+                    role = 'assistant' if msg.type == 'ai' else 'user'
+                    history_as_dicts.append({"role": role, "content": msg.content})
+
+                # 3. Get the latest user message
+                latest_user_message = {"role": "user", "content": state['userInput']}
+
+                # 4. Construct the final payload in the "Best of Both Worlds" format
+                final_messages = [
+                    system_message,
+                    *history_as_dicts, # Unpack the history messages
+                    latest_user_message
+                ]
+
+                print(f"[Node: call_rag_llm] Preparing to call OpenAI with {len(final_messages)} total messages.")
+
+                # --- NON-STREAMING LOGIC ---
+                try:
+                    # Make the API call with stream=False
+                    response = await self.openai_client.chat.completions.create(
+                        model=self.openai_deployment,
+                        messages=final_messages,
+                        temperature=0,
+                        max_tokens=3500,
+                        stream=False  # The key change is here
+                    )
+                    
+                    # Extract the complete message content from the single response object
+                    if response.choices:
+                        final_content = response.choices[0].message.content
+                        print("final content",final_content)
+                        # Return the complete response string in the final dictionary
+                        return {"final_response": final_content}
+                    else:
+                        # Handle cases where the API returns no choices
+                        return {"final_response": "**Error:** Received an empty response from the model."}
+
+                except Exception as e:
+                    print(f"[Node: call_rag_llm] ERROR during OpenAI API call: {e}")
+                    # Return an error message in the same dictionary structure
+                    return {"final_response": f"**Error:** An unexpected error occurred. Please check the server logs."}
+
 
 
 
@@ -190,6 +257,7 @@ class LangGraphChatService:
         """Node: Calls the TaxGenii streaming endpoint."""
         response_url = "https://api.taxgenii.lodgeit.net.au/api/chat/get-response-message"
         prompt = state['userInput']
+        # stream= state['stream']
         response_payload = {"username": "user", "prompt": prompt, "learn": False, "stream": True}
         
         reference_docs = []
