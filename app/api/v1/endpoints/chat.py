@@ -191,6 +191,7 @@ async def send_chat_message_widget(
                     
                     # After the content stream, send the references and the done signal
                     yield f"data: {json.dumps({'type': 'references', 'data': final_references})}\n\n"
+                    
                     yield f"data: {json.dumps({'type': 'role', 'role': 'assistant'})}\n\n"
                     yield f"data: {json.dumps({'type': 'done'})}\n\n"
 
