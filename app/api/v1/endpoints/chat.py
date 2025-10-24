@@ -9,7 +9,7 @@ from typing import Optional, List
 # Local Imports
 from app.services import chat_healpers
 from app.services.chat_service import ChatService
-from app.utils.dependencies import get_db, get_current_user
+from app.utils.dependencies import get_db, get_current_user, get_or_create_widget_user
 from app.schemas.chat import ChatMessageResponse, ChatRequestWidget, ChatSessionInfo, NewChatRequest, NewChatResponse, ChatRequest
 from app.models.user import User
 from app.models.chat import Chat, ChatMessage, MessageSource
@@ -149,15 +149,41 @@ async def send_chat_message(
 @router.post("/chat-widget")
 async def send_chat_message_widget(
     chat_request: ChatRequestWidget,
+    db: Session = Depends(get_db)
 ):
     """
     Handles stateless, unauthenticated chat messages for a public website widget.
     The frontend is responsible for sending the entire chat history with each message.
+    Chat data is stored in the database using a static widget user.
     """
     try:
+        # Get or create the static widget user for data storage
+        widget_user = get_or_create_widget_user(db)
+        
+        # Create or get existing chat for this widget session
+        # We'll use a simple approach: create a new chat for each widget session
+        # You could modify this to reuse chats based on session ID if needed
+        chat = Chat(
+            user_id=widget_user.id,
+            title=f"Widget Chat - {chat_request.message[:50]}..." if len(chat_request.message) > 50 else f"Widget Chat - {chat_request.message}"
+        )
+        db.add(chat)
+        db.commit()
+        db.refresh(chat)
+        
         if chat_request.stream == True:
 
                 async def generate_stream():
+                    # Save user message to database
+                    user_message = ChatMessage(
+                        chat_id=chat.id,
+                        role="user",
+                        content=chat_request.message
+                    )
+                    db.add(user_message)
+                    db.commit()
+                    db.refresh(user_message)
+                    
                     # Convert the simple list of dicts from the frontend into LangGraph's message format
                     history = []
                     for msg in chat_request.chat_history:
@@ -189,6 +215,29 @@ async def send_chat_message_widget(
                             if "documents" in state_update:
                                 final_references = state_update["documents"]
                     
+                    # Save assistant response to database
+                    assistant_message = ChatMessage(
+                        chat_id=chat.id,
+                        role="assistant",
+                        content=full_response_text
+                    )
+                    db.add(assistant_message)
+                    db.commit()
+                    db.refresh(assistant_message)
+                    
+                    # Save references as message sources if any
+                    if final_references:
+                        for ref in final_references:
+                            source = MessageSource(
+                                chat_message_id=assistant_message.id,
+                                source_title=ref.get("title", ""),
+                                source_url=ref.get("url", ""),
+                                source_hierarchy=ref.get("hierarchy", ""),
+                                retrieval_score=ref.get("score", 0.0)
+                            )
+                            db.add(source)
+                        db.commit()
+                    
                     # After the content stream, send the references and the done signal
                     yield f"data: {json.dumps({'type': 'references', 'data': final_references})}\n\n"
                     
@@ -201,6 +250,17 @@ async def send_chat_message_widget(
 
         else:
             print("non streaming llll")
+            
+            # Save user message to database
+            user_message = ChatMessage(
+                chat_id=chat.id,
+                role="user",
+                content=chat_request.message
+            )
+            db.add(user_message)
+            db.commit()
+            db.refresh(user_message)
+            
             # Convert the simple list of dicts from the frontend into LangGraph's message format
             history = []
             for msg in chat_request.chat_history:
@@ -233,6 +293,29 @@ async def send_chat_message_widget(
 
             # Extract references (this part was already working)
             final_references = final_state.get("documents", [])
+            
+            # Save assistant response to database
+            assistant_message = ChatMessage(
+                chat_id=chat.id,
+                role="assistant",
+                content=full_response_text
+            )
+            db.add(assistant_message)
+            db.commit()
+            db.refresh(assistant_message)
+            
+            # Save references as message sources if any
+            if final_references:
+                for ref in final_references:
+                    source = MessageSource(
+                        chat_message_id=assistant_message.id,
+                        source_title=ref.get("title", ""),
+                        source_url=ref.get("url", ""),
+                        source_hierarchy=ref.get("hierarchy", ""),
+                        retrieval_score=ref.get("score", 0.0)
+                    )
+                    db.add(source)
+                db.commit()
 
             # Construct the final response payload
             response_data = {
